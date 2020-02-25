@@ -1,24 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Cinemachine;
 using UnityEngine;
 
 public class CameraTransition : MonoBehaviour
 {
-    public CinemachineCameraOffset cinemachineCameraOffset;
-    [SerializeField] private CinemachineFreeLook cinemachineFreeCam;
-    [SerializeField] private GameObject front;
-
-    private PlayerMovement playerMovement;
     [SerializeField] private float timeToLerp = 4f;
 
-    private void Awake()
-    {
-        playerMovement = GetComponent<PlayerMovement>();
-    }
+    [SerializeField] private CinemachineFreeLook cinemachineFreeCam;
+    public CinemachineCameraOffset cinemachineCameraOffset;
+
+    [SerializeField] private GameObject front;
+
+
+    [SerializeField] private CameraSettings sideViewSettings;
+    [SerializeField] private CameraSettings topViewSettings;
+    [SerializeField] private CameraSettings thirdPersonSettings;
+    [SerializeField] private CameraSettings firstPersonSettings;
 
 
     private void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             ChangeToSideView();
@@ -31,7 +34,7 @@ public class CameraTransition : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            ChangeToFrontView();
+            ChangeToFirstPersonView();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -39,7 +42,6 @@ public class CameraTransition : MonoBehaviour
             ChangeToThirdPersonView();
         }
 
-#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.PageUp))
         {
             Time.timeScale = 5;
@@ -54,31 +56,43 @@ public class CameraTransition : MonoBehaviour
 
     public void ChangeToSideView()
     {
-        StartCoroutine(SideView());
-        playerMovement.topDown = false;
+        Debug.Log("SIDE VIEW");
+        StartCoroutine(ChangeCamera(sideViewSettings));
+        cinemachineFreeCam.LookAt = cinemachineFreeCam.Follow;
+
+        //StartCoroutine(SideView());
+        //playerMovement.topDown = false; Needs to be removed once player movement is refactored
     }
 
     public void ChangeToTopView()
     {
         Debug.Log("TOP VIEW");
-        StartCoroutine(TopView());
-        playerMovement.topDown = true;
+        StartCoroutine(ChangeCamera(topViewSettings));
+        cinemachineFreeCam.LookAt = cinemachineFreeCam.Follow;
+        //StartCoroutine(TopView());
+        //playerMovement.topDown = true; Needs to be removed once player movement is refactored
     }
 
-    public void ChangeToFrontView()
+    public void ChangeToFirstPersonView()
     {
-        StartCoroutine(FirstPersonView());
-        playerMovement.topDown = false;
+        Debug.Log("First Person VIEW");
+        StartCoroutine(ChangeCamera(firstPersonSettings));
+        cinemachineFreeCam.LookAt = front.transform;
+        //StartCoroutine(FirstPersonView());
+        //playerMovement.topDown = false; Needs to be removed once player movement is refactored
     }
 
     public void ChangeToThirdPersonView()
     {
-        StartCoroutine(ThirdPersonView());
-        playerMovement.topDown = false;
+        Debug.Log("Third Person VIEW");
+        StartCoroutine(ChangeCamera(thirdPersonSettings));
+        cinemachineFreeCam.LookAt = cinemachineFreeCam.Follow;
+        //StartCoroutine(ThirdPersonView());
+        //playerMovement.topDown = false; Needs to be removed once player movement is refactored
     }
 
 
-    public IEnumerator TopView()
+    private IEnumerator TopView()
     {
         cinemachineFreeCam.LookAt = cinemachineFreeCam.Follow;
 
@@ -88,8 +102,8 @@ public class CameraTransition : MonoBehaviour
 
         float endValueY = 1f;
         float endValueX = 0f;
-        float endZOffSet =  5;
-        
+        float endZOffSet = 5;
+
 
         float midRigEndRadius = 35f;
         float endMidHeight = 0;
@@ -117,9 +131,9 @@ public class CameraTransition : MonoBehaviour
         {
             timeRemaining = Time.time - timeSinceStarted;
             percCompleted = timeRemaining / timeToLerp;
-            
+
             cinemachineCameraOffset.m_Offset.z = Mathf.Lerp(startZOffset, endZOffSet, percCompleted);
-            
+
             cinemachineFreeCam.m_YAxis.Value = Mathf.Lerp(startValueY, endValueY, percCompleted);
             cinemachineFreeCam.m_XAxis.Value = Mathf.Lerp(startValueX, endValueX, percCompleted);
             cinemachineFreeCam.m_Orbits[0].m_Radius = Mathf.Lerp(startTopRigRadius, topRigEndRadius, percCompleted);
@@ -132,7 +146,7 @@ public class CameraTransition : MonoBehaviour
     }
 
 
-    public IEnumerator SideView()
+    private IEnumerator SideView()
     {
         float endValueY = 0.5f;
         float endValueX = 0f;
@@ -180,7 +194,7 @@ public class CameraTransition : MonoBehaviour
         }
     }
 
-    public IEnumerator ThirdPersonView()
+    private IEnumerator ThirdPersonView()
     {
         float endValueY = 0.5f;
         float endValueX = 90f;
@@ -228,7 +242,7 @@ public class CameraTransition : MonoBehaviour
     }
 
 
-    public IEnumerator FirstPersonView()
+    private IEnumerator FirstPersonView()
     {
         float endValueY = 0.5f;
         float endValueX = 90f;
@@ -270,5 +284,66 @@ public class CameraTransition : MonoBehaviour
         }
 
         cinemachineFreeCam.LookAt = front.transform;
+    }
+
+
+    public IEnumerator ChangeCamera(CameraSettings settings)
+    {
+        float startValueY = cinemachineFreeCam.m_YAxis.Value;
+        float startValueX = cinemachineFreeCam.m_XAxis.Value;
+
+        float startTopRigRadius = cinemachineFreeCam.m_Orbits[0].m_Radius;
+        float startTopHeight = cinemachineFreeCam.m_Orbits[0].m_Height;
+
+        float startMidHeight = cinemachineFreeCam.m_Orbits[1].m_Height;
+        float startMidRigRadius = cinemachineFreeCam.m_Orbits[1].m_Radius;
+        float startZOffset = cinemachineCameraOffset.m_Offset.z;
+
+        float startFov = cinemachineFreeCam.m_Lens.FieldOfView;
+
+        float percCompleted = 0f;
+        float timeSinceStarted = Time.time;
+        float timeRemaining = 0f;
+        while (percCompleted < 1f)
+        {
+            timeRemaining = Time.time - timeSinceStarted;
+            percCompleted = timeRemaining / timeToLerp;
+
+            cinemachineCameraOffset.m_Offset.z = Mathf.Lerp(startZOffset, settings.zOffSet, percCompleted);
+
+            cinemachineFreeCam.m_YAxis.Value = Mathf.Lerp(startValueY, settings.yAxisValue, percCompleted);
+            cinemachineFreeCam.m_XAxis.Value = Mathf.Lerp(startValueX, settings.xAxisValue, percCompleted);
+            cinemachineFreeCam.m_Orbits[0].m_Radius =
+                Mathf.Lerp(startTopRigRadius, settings.topRig.radius, percCompleted);
+            cinemachineFreeCam.m_Orbits[0].m_Height = Mathf.Lerp(startTopHeight, settings.topRig.height, percCompleted);
+            cinemachineFreeCam.m_Orbits[1].m_Height =
+                Mathf.Lerp(startMidHeight, settings.middleRig.height, percCompleted);
+            cinemachineFreeCam.m_Orbits[1].m_Radius =
+                Mathf.Lerp(startMidRigRadius, settings.middleRig.radius, percCompleted);
+            cinemachineFreeCam.m_Lens.FieldOfView = Mathf.Lerp(startFov, settings.fov, percCompleted);
+            yield return null;
+        }
+    }
+
+    [Serializable]
+    public struct CameraSettings
+    {
+        public float yAxisValue;
+        public float xAxisValue;
+        public float zOffSet;
+
+
+        public OrbitRig middleRig;
+        public OrbitRig topRig;
+
+
+        public float fov;
+    }
+
+    [Serializable]
+    public struct OrbitRig
+    {
+        public float radius;
+        public float height;
     }
 }

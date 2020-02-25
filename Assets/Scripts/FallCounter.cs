@@ -1,13 +1,17 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 
 public class FallCounter : MonoBehaviour
 {
     public ShootText brokenTextShoot;
 
-    public int currentBreakCount, maxBreakCount;
+    private int currentBreakCount;
+    [SerializeField] private int maxBreakCount;
 
     public Rigidbody playerRigidbody;
 
+    [SerializeField] private CinemachineImpulseSource cinemachineImpulseSource;
+    
     // Update is called once per frame
     private void Update()
     {
@@ -15,6 +19,7 @@ public class FallCounter : MonoBehaviour
             Input.GetKeyDown(KeyCode.D))
         {
             currentBreakCount++;
+            cinemachineImpulseSource.GenerateImpulse();
         }
 
         if (currentBreakCount >= maxBreakCount)

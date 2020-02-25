@@ -63,7 +63,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/GravityActivator.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CameraShake.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/BreakingBoundTrigger.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/FallCounter.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/SwitchCameraToPlayer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/TriggerEvent.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ShootText.cs" />
@@ -80,7 +79,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Leel1TextEffectRemover.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/TextEffect3D.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Level1TextEffectRemover.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/CameraTransition.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/AudioManager.cs" />
         <option value="$PROJECT_DIR$/Assets/TimeAnimation.cs" />
         <option value="$PROJECT_DIR$/Assets/OLetterGlow.cs" />
@@ -88,6 +86,8 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/PillarPivot.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Level1Cleaner.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Platforms.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CameraTransition.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/FallCounter.cs" />
       </list>
     </option>
   </component>
@@ -101,6 +101,7 @@
     <property name="Discover.Launch.Via.Unity" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="CodeCleanupOptionsPage" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
@@ -109,10 +110,10 @@
       <option name="pid" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="10564">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="10564" />
+      <option name="pid" />
       <method v="2" />
     </configuration>
   </component>
@@ -139,6 +140,8 @@
       <workItem from="1580449109814" duration="11270000" />
       <workItem from="1580495519626" duration="1196000" />
       <workItem from="1580497081148" duration="883000" />
+      <workItem from="1582463297858" duration="4346000" />
+      <workItem from="1582634877279" duration="2181000" />
     </task>
     <servers />
   </component>
@@ -233,18 +236,41 @@
     </state>
     <state width="746" height="198" key="GridCell.Tab.3.right/0.0.1536.824/-1920.0.1536.824@0.0.1536.824" timestamp="1580482136115" />
     <state width="1493" height="198" key="GridCell.Tab.3.right/0.0.1536.824@0.0.1536.824" timestamp="1580568236388" />
+    <state x="277" y="56" key="SettingsEditor" timestamp="1582465484756">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="277" y="56" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1582465484756" />
     <state x="411" y="28" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1580562541623">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="411" y="28" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824@0.0.1536.824" timestamp="1580562541623" />
-    <state x="450" y="144" width="636" height="536" key="find.popup" timestamp="1580552282675">
+    <state x="450" y="144" width="706" height="536" key="find.popup" timestamp="1582465231087">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="450" y="144" width="636" height="536" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1580552282675" />
+    <state x="450" y="144" width="706" height="536" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1582465231087" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1580558459040">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1536.824@0.0.1536.824" timestamp="1580477442326" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1580558459040" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/CameraTransition.cs</url>
+          <line>197</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/CameraTransition.cs" initialLine="197">
+            <startOffsets>
+              <option value="6706" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6707" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
